@@ -30,3 +30,9 @@ migrate-down:
 
 simulate:
 	$(PYTHON) scripts/run_simulator.py --base-url http://localhost:8000
+
+test-websocket:
+	$(PYTHON) scripts/test_websocket.py $(MATCH_ID)
+
+load-test:
+	$(PYTHON) scripts/load_test_websocket.py

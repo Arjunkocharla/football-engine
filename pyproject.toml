@@ -9,12 +9,13 @@ description = "Football real-time analytics engine"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-  "fastapi",
-  "uvicorn[standard]",
-  "sqlalchemy",
-  "alembic",
-  "pydantic-settings",
-  "httpx",
+    "fastapi",
+    "uvicorn[standard]",
+    "sqlalchemy",
+    "alembic",
+    "pydantic-settings",
+    "httpx",
+    "websockets",
 ]
 
 [project.optional-dependencies]

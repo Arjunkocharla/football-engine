@@ -1,0 +1,108 @@
+2026-02-16 12:17:04,279 [INFO] ================================================================================
+2026-02-16 12:17:04,279 [INFO] Starting WebSocket Load Test - Compressed 5-Minute Match
+2026-02-16 12:17:04,280 [INFO] Log file: /home/pi/football-engine/logs/websocket_load_test_20260216_121704.log
+2026-02-16 12:17:04,280 [INFO] ================================================================================
+2026-02-16 12:17:04,552 [INFO] HTTP Request: POST http://localhost:8000/api/v1/matches "HTTP/1.1 201 Created"
+2026-02-16 12:17:04,554 [INFO] Created match: load-test-99ae468b
+2026-02-16 12:17:04,556 [INFO] WebSocket listener started
+2026-02-16 12:17:04,602 [INFO] [load-test-99ae468b] WebSocket connected: {'type': 'connected', 'match_id': 'load-test-99ae468b'}
+2026-02-16 12:17:06,559 [INFO] Event sender started - simulating compressed 5-minute match
+2026-02-16 12:17:06,559 [INFO] Timeline: Period 1 (0-2.5 min) → Period 2 (2.5-5 min)
+2026-02-16 12:17:07,484 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:07,486 [INFO] [load-test-99ae468b] → Sent: p1 0:15 HOME SHOT
+2026-02-16 12:17:07,487 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-00-15-482641 | Type: SHOT | Clock: p1 0:15
+2026-02-16 12:17:08,295 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:08,298 [INFO] [load-test-99ae468b] → Sent: p1 0:30 AWAY FOUL
+2026-02-16 12:17:08,298 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-00-30-a14da9 | Type: FOUL | Clock: p1 0:30
+2026-02-16 12:17:09,981 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:09,986 [INFO] [load-test-99ae468b] → Sent: p1 1:00 HOME CORNER
+2026-02-16 12:17:09,987 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-01-00-f60a40 | Type: CORNER | Clock: p1 1:00
+2026-02-16 12:17:11,079 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:11,081 [INFO] [load-test-99ae468b] → Sent: p1 1:20 AWAY SHOT
+2026-02-16 12:17:11,082 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-01-20-c2a992 | Type: SHOT | Clock: p1 1:20
+2026-02-16 12:17:12,455 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:12,457 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-01-45-100230 | Type: YELLOW | Clock: p1 1:45
+2026-02-16 12:17:12,458 [INFO] [load-test-99ae468b] → Sent: p1 1:45 HOME YELLOW
+2026-02-16 12:17:13,849 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:13,851 [INFO] [load-test-99ae468b] → Sent: p1 2:10 HOME SHOT_ON_TARGET
+2026-02-16 12:17:13,852 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-02-10-1f5349 | Type: SHOT_ON_TARGET | Clock: p1 2:10
+2026-02-16 12:17:14,955 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:14,957 [INFO] [load-test-99ae468b] → Sent: p1 2:30 AWAY FOUL
+2026-02-16 12:17:14,957 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-02-30-2e66c9 | Type: FOUL | Clock: p1 2:30
+2026-02-16 12:17:16,071 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:16,074 [INFO] [load-test-99ae468b] → Sent: p1 2:50 HOME GOAL
+2026-02-16 12:17:16,075 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-02-50-c0f439 | Type: GOAL | Clock: p1 2:50
+2026-02-16 12:17:17,483 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:17,489 [INFO] [load-test-99ae468b] → Sent: p1 3:15 AWAY CORNER
+2026-02-16 12:17:17,491 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-03-15-d64fec | Type: CORNER | Clock: p1 3:15
+2026-02-16 12:17:18,844 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:18,846 [INFO] [load-test-99ae468b] → Sent: p1 3:40 HOME SHOT
+2026-02-16 12:17:18,847 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-03-40-33401f | Type: SHOT | Clock: p1 3:40
+2026-02-16 12:17:19,954 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:19,956 [INFO] [load-test-99ae468b] → Sent: p1 4:00 AWAY YELLOW
+2026-02-16 12:17:19,957 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-04-00-4d95c2 | Type: YELLOW | Clock: p1 4:00
+2026-02-16 12:17:21,629 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:17:21,631 [INFO] [load-test-99ae468b] → Sent: p1 4:30 HOME SHOT_ON_TARGET
+2026-02-16 12:17:21,632 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p1-04-30-4a85be | Type: SHOT_ON_TARGET | Clock: p1 4:30
+2026-02-16 12:19:37,743 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:37,745 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-00-20-aaeba7 | Type: SHOT | Clock: p2 0:20
+2026-02-16 12:19:37,746 [INFO] [load-test-99ae468b] → Sent: p2 0:20 AWAY SHOT
+2026-02-16 12:19:39,129 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:39,132 [INFO] [load-test-99ae468b] → Sent: p2 0:45 HOME FOUL
+2026-02-16 12:19:39,133 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-00-45-f1bc0a | Type: FOUL | Clock: p2 0:45
+2026-02-16 12:19:40,543 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:40,548 [INFO] [load-test-99ae468b] → Sent: p2 1:10 AWAY CORNER
+2026-02-16 12:19:40,550 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-01-10-bc205c | Type: CORNER | Clock: p2 1:10
+2026-02-16 12:19:41,924 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:41,929 [INFO] [load-test-99ae468b] → Sent: p2 1:35 HOME SHOT
+2026-02-16 12:19:41,930 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-01-35-77f2f4 | Type: SHOT | Clock: p2 1:35
+2026-02-16 12:19:43,289 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:43,291 [INFO] [load-test-99ae468b] → Sent: p2 2:00 AWAY GOAL
+2026-02-16 12:19:43,291 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-02-00-2c3fd6 | Type: GOAL | Clock: p2 2:00
+2026-02-16 12:19:44,677 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:44,679 [INFO] [load-test-99ae468b] → Sent: p2 2:25 HOME YELLOW
+2026-02-16 12:19:44,680 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-02-25-12ddb2 | Type: YELLOW | Clock: p2 2:25
+2026-02-16 12:19:46,066 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:46,068 [INFO] [load-test-99ae468b] → Sent: p2 2:50 AWAY SHOT_ON_TARGET
+2026-02-16 12:19:46,069 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-02-50-808ad7 | Type: SHOT_ON_TARGET | Clock: p2 2:50
+2026-02-16 12:19:47,476 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:47,478 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-03-15-21b086 | Type: CORNER | Clock: p2 3:15
+2026-02-16 12:19:47,480 [INFO] [load-test-99ae468b] → Sent: p2 3:15 HOME CORNER
+2026-02-16 12:19:48,850 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:48,852 [INFO] [load-test-99ae468b] → Sent: p2 3:40 AWAY FOUL
+2026-02-16 12:19:48,853 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-03-40-e02306 | Type: FOUL | Clock: p2 3:40
+2026-02-16 12:19:50,512 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:50,514 [INFO] [load-test-99ae468b] → Sent: p2 4:10 HOME SHOT
+2026-02-16 12:19:50,515 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-04-10-d1d37d | Type: SHOT | Clock: p2 4:10
+2026-02-16 12:19:51,620 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:51,622 [INFO] [load-test-99ae468b] → Sent: p2 4:30 AWAY SHOT
+2026-02-16 12:19:51,623 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-04-30-5d8e76 | Type: SHOT | Clock: p2 4:30
+2026-02-16 12:19:53,030 [INFO] HTTP Request: POST http://localhost:8000/api/v1/events "HTTP/1.1 200 OK"
+2026-02-16 12:19:53,034 [INFO] [load-test-99ae468b] → Sent: p2 4:55 HOME SHOT_ON_TARGET
+2026-02-16 12:19:53,037 [INFO] [load-test-99ae468b] ← Event: load-load-test-99ae468b-p2-04-55-7cc466 | Type: SHOT_ON_TARGET | Clock: p2 4:55
+2026-02-16 12:19:53,038 [INFO] Stopping load test...
+2026-02-16 12:19:55,041 [INFO] ================================================================================
+2026-02-16 12:19:55,041 [INFO] Load Test Summary
+2026-02-16 12:19:55,041 [INFO] ================================================================================
+2026-02-16 12:19:55,041 [INFO] 
+Match: load-test-99ae468b
+2026-02-16 12:19:55,042 [INFO]   Events sent: 24
+2026-02-16 12:19:55,042 [INFO]   Events deduplicated: 0
+2026-02-16 12:19:55,042 [INFO]   Events received via WebSocket: 24
+2026-02-16 12:19:55,042 [INFO]   Delivery rate: 100.0%
+2026-02-16 12:19:55,042 [INFO] 
+WebSocket Events Received:
+2026-02-16 12:19:55,042 [INFO]   - load-load-test-99ae468b-p1-00-15-482641
+2026-02-16 12:19:55,042 [INFO]   - load-load-test-99ae468b-p1-00-30-a14da9
+2026-02-16 12:19:55,042 [INFO]   - load-load-test-99ae468b-p1-01-00-f60a40
+2026-02-16 12:19:55,042 [INFO]   - load-load-test-99ae468b-p1-01-20-c2a992
+2026-02-16 12:19:55,042 [INFO]   - load-load-test-99ae468b-p1-01-45-100230
+2026-02-16 12:19:55,043 [INFO]   - load-load-test-99ae468b-p1-02-10-1f5349
+2026-02-16 12:19:55,043 [INFO]   - load-load-test-99ae468b-p1-02-30-2e66c9
+2026-02-16 12:19:55,043 [INFO]   - load-load-test-99ae468b-p1-02-50-c0f439
+2026-02-16 12:19:55,043 [INFO]   - load-load-test-99ae468b-p1-03-15-d64fec
+2026-02-16 12:19:55,043 [INFO]   - load-load-test-99ae468b-p1-03-40-33401f
+2026-02-16 12:19:55,043 [INFO]   ... and 14 more
+2026-02-16 12:19:55,043 [INFO] 
+Log file: /home/pi/football-engine/logs/websocket_load_test_20260216_121704.log
+2026-02-16 12:19:55,043 [INFO] ================================================================================

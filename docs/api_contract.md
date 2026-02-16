@@ -47,15 +47,70 @@ Return latest stored snapshot.
 
 Return recent events for debugging.
 
-## WebSocket v2 (design target)
+## WebSocket v2 (implemented)
 
-### WS `/matches/{id}/stream`
+### WS `/ws/v2/matches/{match_id}/stream`
 
-Pushes:
+Real-time push stream for match updates. Connects to a specific match and receives JSON messages on each event ingest.
 
-- ingested event
-- updated match state
-- updated analytics snapshot
+**Connection:**
+```javascript
+const ws = new WebSocket('ws://localhost:8000/ws/v2/matches/{match_id}/stream');
+```
+
+**Message format:**
+```json
+{
+  "type": "update",
+  "event": {
+    "event_id": "...",
+    "clock": {"period": 1, "minute": 5, "second": 30},
+    "team_side": "HOME",
+    "event_type": "SHOT"
+  },
+  "match_state": {
+    "match_id": "...",
+    "home_team": "...",
+    "away_team": "...",
+    "status": "LIVE",
+    "clock": {...},
+    "score": {"home": 1, "away": 0},
+    ...
+  },
+  "analytics_latest": {
+    "snapshot_id": "...",
+    "clock": {...},
+    "features_by_window": {...},
+    "derived_metrics": {
+      "pressure_index": {"HOME": 0.7, "AWAY": 0.3},
+      "momentum": {...},
+      "field_tilt": {...},
+      "danger_next_5m": {...}
+    },
+    "deltas": {...},
+    "why": "...",
+    ...
+  }
+}
+```
+
+**Initial message:**
+```json
+{"type": "connected", "match_id": "..."}
+```
+
+**Client ping:**
+Send `"ping"` text message, receive `{"type": "pong"}`.
+
+**Limits:**
+- Max 20 connections per match
+- Max 100 total connections
+- Connection closed with code 1008 if limit reached
+
+**Performance:**
+- Minimal payloads (event summary only, not full nested objects)
+- Non-blocking broadcast (doesn't delay HTTP response)
+- Automatic cleanup on disconnect
 
 ## Error Contract
 

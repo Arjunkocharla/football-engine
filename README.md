@@ -42,6 +42,7 @@ Start here when onboarding or when you need to reorient:
 - Infrastructure: repository implementations, mappers, AnalyticsEngine v1 (rolling 5m/10m, pressure, momentum, tilt, danger, explainability).
 - Application: CreateMatchService, IngestEventService, GetMatchStateService, GetLatestAnalyticsService.
 - HTTP v1: POST /matches, POST /events, GET /matches/{id}/state, GET /matches/{id}/analytics/latest, GET /matches/{id}/events/recent.
+- **WebSocket v2**: `/ws/v2/matches/{match_id}/stream` — real-time push updates on event ingest (Pi-optimized: minimal payloads, connection limits).
 - **SimulatorProvider**: deterministic, seeded event stream; script to run a full (or short) match against the API.
 
 ## Run (Bootstrap)
@@ -96,6 +97,107 @@ Then inspect state and analytics:
 curl http://localhost:8000/api/v1/matches/sim-match-1/state
 curl http://localhost:8000/api/v1/matches/sim-match-1/analytics/latest
 ```
+
+## WebSocket Streaming (v2)
+
+### Testing the WebSocket Stream
+
+**Step 1: Start the API server**
+```bash
+make run
+# Server starts on http://localhost:8000
+```
+
+**Step 2: Create a match (if needed)**
+```bash
+curl -X POST http://localhost:8000/api/v1/matches \
+  -H "Content-Type: application/json" \
+  -d '{"match_id": "test-match-1", "home_team": "Team A", "away_team": "Team B"}'
+```
+
+**Step 3: Connect WebSocket client**
+
+**Option A: Use the test script (recommended)**
+```bash
+# In a new terminal
+make install  # Install websockets dependency if not already installed
+.venv/bin/python scripts/test_websocket.py test-match-1
+```
+
+**Option B: Use wscat (if you have Node.js)**
+```bash
+npm install -g wscat
+wscat -c ws://localhost:8000/ws/v2/matches/test-match-1/stream
+```
+
+**Option C: Use Python directly**
+```bash
+.venv/bin/python -c "
+import asyncio
+import websockets
+import json
+
+async def listen():
+    async with websockets.connect('ws://localhost:8000/ws/v2/matches/test-match-1/stream') as ws:
+        welcome = await ws.recv()
+        print('Connected:', json.loads(welcome))
+        while True:
+            msg = await ws.recv()
+            print(json.dumps(json.loads(msg), indent=2))
+
+asyncio.run(listen())
+"
+```
+
+**Step 4: Trigger events (in another terminal)**
+
+**Option A: Use the simulator**
+```bash
+make simulate
+# Or for a specific match:
+.venv/bin/python scripts/run_simulator.py --match-id test-match-1 --no-create
+```
+
+**Option B: Send events manually**
+```bash
+curl -X POST http://localhost:8000/api/v1/events \
+  -H "Content-Type: application/json" \
+  -d '{
+    "event_id": "e1",
+    "match_id": "test-match-1",
+    "clock": {"period": 1, "minute": 5, "second": 30},
+    "team_side": "HOME",
+    "event_type": "SHOT"
+  }'
+```
+
+**What you'll see:**
+
+1. **Welcome message** when you connect:
+   ```json
+   {"type": "connected", "match_id": "test-match-1"}
+   ```
+
+2. **Update messages** for each event ingested:
+   ```json
+   {
+     "type": "update",
+     "event": {
+       "event_id": "e1",
+       "clock": {"period": 1, "minute": 5, "second": 30},
+       "team_side": "HOME",
+       "event_type": "SHOT"
+     },
+     "match_state": { /* full match state */ },
+     "analytics_latest": { /* latest analytics snapshot */ }
+   }
+   ```
+
+**Performance considerations:**
+- Minimal payloads (event summary, not full nested objects)
+- Connection limits: 20 per match, 100 total
+- Non-blocking broadcast (doesn't delay HTTP ingest response)
+- Automatic cleanup on client disconnect
 
 ## Next Milestones
 

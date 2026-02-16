@@ -1,13 +1,16 @@
 """Event ingest API route."""
 
 from datetime import datetime, timezone
+from typing import Any
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from football_engine.api.dependencies.session import get_db
 from football_engine.api.dependencies.services import get_ingest_event_service
 from football_engine.api.schemas.event_schemas import IngestEventRequest
+from football_engine.api.ws.v2.payloads import event_to_minimal_dto
+from football_engine.api.ws.v2.stream_manager import get_stream_manager
 from football_engine.application.dto import (
     analytics_snapshot_to_dto,
     ingest_result_dto,
@@ -22,8 +25,9 @@ events_router = APIRouter(prefix="/events", tags=["events"])
 
 
 @events_router.post("")
-def ingest_event(
+async def ingest_event(
     body: IngestEventRequest,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
     service: IngestEventService = Depends(get_ingest_event_service),
 ) -> dict:
@@ -49,9 +53,51 @@ def ingest_event(
     db.commit()
     state_dto = match_to_state_dto(match) if match else {}
     snapshot_dto = analytics_snapshot_to_dto(snapshot) if snapshot else None
+
+    # Broadcast to WebSocket subscribers (non-blocking, runs after response)
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    logger.info(f"Event ingested: match={event.match_id}, deduplicated={deduplicated}, match_obj={match is not None}")
+    
+    # Broadcast if match exists AND (event is new OR there are subscribers who might need current state)
+    if match:
+        manager = get_stream_manager()
+        has_subscribers = manager.get_subscriber_count(event.match_id) > 0
+        
+        if not deduplicated:
+            logger.info(f"Scheduling broadcast for NEW event in match {event.match_id}")
+            background_tasks.add_task(_broadcast_update, event, state_dto, snapshot_dto)
+        elif has_subscribers:
+            # Even if deduplicated, broadcast to subscribers who might have just connected
+            logger.info(f"Scheduling broadcast for DEDUPLICATED event (subscribers present) in match {event.match_id}")
+            background_tasks.add_task(_broadcast_update, event, state_dto, snapshot_dto)
+        else:
+            logger.debug(f"Skipping broadcast: deduplicated={deduplicated}, no subscribers")
+
     return ingest_result_dto(
         accepted=accepted,
         deduplicated=deduplicated,
         match_state=state_dto,
         analytics_latest=snapshot_dto,
     )
+
+
+async def _broadcast_update(
+    event: Event,
+    match_state: dict[str, Any],
+    analytics_latest: dict[str, Any] | None,
+) -> None:
+    """Non-blocking broadcast to WebSocket subscribers."""
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    try:
+        manager = get_stream_manager()
+        event_dto = event_to_minimal_dto(event)
+        logger.info(f"Broadcasting update for match {event.match_id} to {manager.get_subscriber_count(event.match_id)} subscribers")
+        await manager.broadcast(event.match_id, event_dto, match_state, analytics_latest)
+        logger.debug(f"Broadcast completed for match {event.match_id}")
+    except Exception as e:
+        # Log but don't fail the HTTP request
+        logger.warning(f"WebSocket broadcast failed for match {event.match_id}: {e}", exc_info=True)
